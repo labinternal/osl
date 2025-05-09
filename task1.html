@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task 1 - UNIX Commands</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Task 1: Practice UNIX Commands</h1>
+
+    <h2>1. cp Command (Copy)</h2>
+    <p><strong>Syntax:</strong> cp [options] source_file destination-file</p>
+    <p><strong>Example:</strong> cp f1 f2</p>
+    <pre>
+OUTPUT:
+$ cat f1
+This is GRIET
+$ cat f2
+This is GRIET
+    </pre>
+
+    <h3>Options:</h3>
+    <ul>
+        <li><strong>-f:</strong> Force copy
+            <pre>
+Example: cp -f f1 f2
+$ cat f1
+This is CSE
+$ cat f2
+This is GRIET
+            </pre>
+        </li>
+        <li><strong>-i:</strong> Ask confirmation to overwrite</li>
+        <li><strong>-b:</strong> Create backup before overriding</li>
+    </ul>
+
+    <h2>2. rm Command (Remove)</h2>
+    <p><strong>Syntax:</strong> rm [options] filename</p>
+    <p><strong>Example:</strong> rm f1</p>
+    <pre>
+OUTPUT:
+f1 is deleted
+    </pre>
+
+    <h3>Options:</h3>
+    <ul>
+        <li><strong>-f:</strong> Ignore non-existing files
+            <pre>
+Example: rm -f myfile.txt
+OUTPUT: Removes file myfile.txt
+            </pre>
+        </li>
+        <li><strong>-r:</strong> Remove directory recursively</li>
+        <li><strong>-i:</strong> Prompt before removal</li>
+    </ul>
+
+    <h2>3. mv Command (Move/Rename)</h2>
+    <p><strong>Syntax:</strong> mv [Option] source destination</p>
+    <pre>
+Example:
+$ cat > f1
+hai
+hello
+cse
+$ cat f2
+hai
+hello
+$ mv f1 f2
+$ cat f1
+cat: f1: No such file or directory
+$ cat f2
+hai
+hello
+cse
+    </pre>
+
+    <h2>4. chmod Command</h2>
+    <pre>
+Example:
+$ chmod 777 f2
+$ ls -l
+total 1
+-rwxrwxrwx 1 14 Apr  1 14:30 f2
+-rw-r--r-- 1  0 Apr  1 14:18 hai
+    </pre>
+
+    <h2>5. ps Command (Process Status)</h2>
+    <p><strong>Syntax:</strong> ps</p>
+    <table border="1">
+        <tr>
+            <th>PID</th>
+            <th>TTY</th>
+            <th>TIME</th>
+            <th>CMD</th>
+        </tr>
+        <tr>
+            <td>644</td>
+            <td>01</td>
+            <td>10:30:00</td>
+            <td>bash</td>
+        </tr>
+        <tr>
+            <td>643</td>
+            <td>02</td>
+            <td>10:31:00</td>
+            <td>ps</td>
+        </tr>
+    </table>
+
+    <h2>6. kill Command</h2>
+    <p><strong>Syntax:</strong> kill &lt;pid&gt;</p>
+    <p><strong>Example:</strong> kill 644</p>
+    <pre>
+OUTPUT: The process gets terminated.
+    </pre>
+</body>
+
+</html>

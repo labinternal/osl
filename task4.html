@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task 4 - Producer-Consumer Problem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .output {
+            background: #e8f4f8;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Task 4: Producer-Consumer Problem</h1>
+
+    <pre>
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+int mutex=1, full=0, empty=3, x=0;
+
+// Corrected wait function (P operation)
+int wait(int s) {
+    while(s<=0);  // Busy waiting
+    return s-1;
+}
+
+// Corrected signal function (V operation)
+int signal(int s) {
+    return s+1;
+}
+
+void producer() {
+    empty = wait(empty);
+    mutex = wait(mutex);
+    
+    x++;
+    printf("Producer produces item %d\n",x);
+    
+    mutex = signal(mutex);
+    full = signal(full);
+}
+
+void consumer() {
+    full = wait(full);
+    mutex = wait(mutex);
+    
+    printf("Consumer consumes item %d\n",x);
+    x--;
+    
+    mutex = signal(mutex);
+    empty = signal(empty);
+}
+
+int main() {
+    int n;
+    printf("1.Producer 2.Consumer 3.Exit.\n");
+    
+    while(1) {
+        printf("\nEnter your choice:");
+        scanf("%d",&n);
+        
+        switch(n) {
+            case 1: 
+                if((mutex==1)&&(empty!=0))
+                    producer();
+                else
+                    printf("Buffer is full\n");
+                break;
+                
+            case 2:
+                if((mutex==1)&&(full!=0))
+                    consumer();
+                else
+                    printf("Buffer is empty\n");
+                break;
+                
+            case 3:
+                exit(0);
+                break;
+        }
+    }
+    return 0;
+}
+    </pre>
+
+    <div class="output">
+        <h3>Output:</h3>
+        <pre>
+1.Producer 2.Consumer 3.Exit.
+
+Enter your choice:1
+Producer produces item 1
+
+Enter your choice:1
+Producer produces item 2
+
+Enter your choice:2
+Consumer consumes item 2
+
+Enter your choice:2
+Consumer consumes item 1
+
+Enter your choice:2
+Buffer is empty
+
+Enter your choice:3
+        </pre>
+    </div>
+</body>
+
+</html>

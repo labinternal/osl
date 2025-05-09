@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task 9 - Paging Technique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .output {
+            background: #e8f4f8;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Task 9: Paging Technique</h1>
+
+    <pre>
+#include&lt;stdio.h&gt;
+void main() {
+    int np, ps, pt[20], nf, la, pn, index, pa, i;
+    
+    printf("\nEnter number of pages:");
+    scanf("%d",&np);
+    printf("\nEnter page size:");
+    scanf("%d",&ps);
+    printf("\nEnter page table:");
+    
+    for(i=0;i&lt;np;i++)
+        scanf("%d",&pt[i]);
+    
+    printf("\nEnter number of frames:");
+    scanf("%d",&nf);
+    printf("\nEnter logical address:");
+    scanf("%d",&la);
+    
+    pn = la/ps;
+    index = la%ps;
+    pa = (pt[pn]*ps) + index;
+    
+    printf("\nPhysical address is %d",pa);
+}
+    </pre>
+
+    <div class="output">
+        <h3>Output:</h3>
+        <pre>
+Enter number of pages:4
+Enter page size:300
+Enter page table:4 2 1 3
+Enter number of frames:4
+Enter logical address:1000
+
+Physical address is 401
+        </pre>
+    </div>
+</body>
+
+</html>

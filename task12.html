@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task 12a - Sequential File Allocation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .output {
+            background: #e8f4f8;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Task 12a: Sequential File Allocation</h1>
+
+    <pre>
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+
+void main() {
+    int st[20], b[20], b1[20], ch, i, j, n, blocks[20][20], sz[20];
+    char F[20][20], S[20];
+    
+    printf("\nEnter no. of Files ::");
+    scanf("%d",&n);
+    
+    for(i=0;i&lt;n;i++) {
+        printf("\nEnter file %d name ::",i+1);
+        scanf("%s",&F[i]);
+        printf("\nEnter file%d size(in kb)::",i+1);
+        scanf("%d",&sz[i]);
+        printf("\nEnter Starting block of %d::",i+1);
+        scanf("%d",&st[i]);
+        printf("\nEnter blocksize of File%d(in bytes)::",i+1);
+        scanf("%d",&b[i]);
+    }
+    
+    for(i=0;i&lt;n;i++)
+        b1[i]=(sz[i]*1024)/b[i];
+    
+    for(i=0;i&lt;n;i++) {
+        for(j=0;j&lt;b1[i];j++)
+            blocks[i][j]=st[i]+j;
+    }
+    
+    do {
+        printf("\nEnter the Filename ::");
+        scanf("%s",S);
+        for(i=0;i&lt;n;i++) {
+            if(strcmp(S,F[i])==0) {
+                printf("\nFname\tStart\tNblocks\tBlocks\n");
+                printf("\n______\n");
+                printf("\n%s\t%d\t%d\t",F[i],st[i],b1[i]);
+                for(j=0;j&lt;b1[i];j++)
+                    printf("%d->",blocks[i][j]);
+            }
+        }
+        printf("\n______\n");
+        printf("\nContinue? (1/0):");
+        scanf("%d",&ch);
+    } while(ch==1);
+}
+    </pre>
+
+    <div class="output">
+        <h3>Output:</h3>
+        <pre>
+Enter no. of files ::2
+Enter file 1 name ::os1
+Enter file1 size(in kb)::1
+Enter Starting block of 1::1000
+Enter blocksize of File1(in bytes)::512
+Enter file 2 name ::os2
+Enter file2 size(in kb)::1
+Enter Starting block of 2::2000
+Enter blocksize of File2(in bytes)::512
+
+Enter the Filename ::os1
+
+Fname   Start   Nblocks Blocks
+______________________________
+os1     1000    2       1000->1001->
+______________________________
+
+Continue? (1/0):0
+        </pre>
+    </div>
+    <h1>Task 12b: Indexed File Allocation</h1>
+    
+    <pre>
+    #include&lt;stdio.h&gt;
+    #include&lt;string.h&gt;
+    
+    int n;
+    
+    void main() {
+        int b[20], b1[20], i, j, blocks[20][20], sz[20];
+        char F[20][20], S[20], ch;
+        
+        printf("\nEnter no. of Files ::");
+        scanf("%d",&n);
+        
+        for(i=0;i&lt;n;i++) {
+            printf("\nEnter file %d name ::",i+1);
+            scanf("%s",&F[i]);
+            printf("\nEnter file%d size(in kb)::",i+1);
+            scanf("%d",&sz[i]);
+            printf("\nEnter blocksize of File%d(in bytes)::",i+1);
+            scanf("%d",&b[i]);
+        }
+        
+        for(i=0;i&lt;n;i++) {
+            b1[i]=(sz[i]*1024)/b[i];
+            printf("\nEnter blocks for file%d",i+1);
+            for(j=0;j&lt;b1[i];j++) {
+                printf("\nEnter the %dblock ::",j+1);
+                scanf("%d",&blocks[i][j]);
+            }
+        }
+        
+        do {
+            printf("\nEnter the Filename ::");
+            scanf("%s",&S);
+            for(i=0;i&lt;n;i++) {
+                if(strcmp(F[i],S)==0) {
+                    printf("\nFname\tFsize\tBsize\tNblocks\tBlocks\n");
+                    printf("\n______\n");
+                    printf("\n%s\t%d\t%d\t%d\t",F[i],sz[i],b[i],b1[i]);
+                    for(j=0;j&lt;b1[i];j++)
+                        printf("%d->",blocks[i][j]);
+                }
+            }
+            printf("\n______\n");
+            printf("\nContinue? (Y=1/N=0):");
+            scanf("%d",&ch);
+        } while(ch!=0);
+    }
+        </pre>
+    
+    <div class="output">
+        <h3>Output:</h3>
+        <pre>
+    Enter no. of files ::2
+    Enter file 1 name ::os1
+    Enter file1 size(in kb)::1
+    Enter blocksize of File1(in bytes)::512
+    Enter blocks for file1
+    Enter the 1block ::1000
+    Enter the 2block ::1500
+    
+    Enter file 2 name ::os2
+    Enter file2 size(in kb)::2
+    Enter blocksize of File2(in bytes)::1024
+    Enter blocks for file2
+    Enter the 1block ::2000
+    Enter the 2block ::2500
+    
+    Enter the Filename ::os1
+    
+    Fname   Fsize   Bsize   Nblocks Blocks
+    ______________________________
+    os1     1       512     2       1000->1500->
+    ______________________________
+    
+    Continue? (Y=1/N=0):0
+            </pre>
+    </div>
+    </body>
+    
+    </html>

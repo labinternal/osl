@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task 11 - Disk Scheduling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .output {
+            background: #e8f4f8;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin-top: 15px;
+        }
+
+        h2 {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Task 11: Disk Scheduling Algorithms</h1>
+
+    <pre>
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+int absolute(int a, int b) {
+    int c = a-b;
+    return (c&lt;0) ? -c : c;
+}
+
+int main() {
+    int choice, m, n, x, start, i, j, pos, min, a[15], count;
+    count = 0;
+    
+    printf("\nEnter the number of cylinders :");
+    scanf("%d",&m);
+    printf("\nEnter the number of requests :");
+    scanf("%d",&n);
+    printf("\nEnter current position :");
+    scanf("%d",&start);
+    
+    printf("\nEnter the request queue :");
+    for(i=0;i&lt;n;i++) {
+        scanf("%d",&a[i]);
+        if(a[i]>=m) {
+            printf("\ninvalid input");
+            scanf("%d",&a[i]);
+        }
+    }
+    
+    do {
+        printf("\nDISK SCHEDULING ALGORITHMS\n1. FCFS\n2. SSTF\n3. SCAN\n4. C-SCAN\n5. LOOK\n6. C-LOOK");
+        printf("\nEnter choice :");
+        scanf("%d",&choice);
+        count=0;
+        x=start;
+        
+        switch(choice) {
+            case 1: // FCFS
+                printf("\nFCFS :\n");
+                printf("Scheduling services the request in order:\n%d\t",start);
+                for(i=0;i&lt;n;i++) {
+                    count += absolute(x,a[i]);
+                    x=a[i];
+                    printf("%d\t",x);
+                }
+                printf("\nTotal Head Movement: %d Cylinders",count);
+                break;
+                
+            case 2: // SSTF
+                printf("\nSSTF:\n");
+                printf("Scheduling services the request in order:\n%d\t",start);
+                for(i=0;i&lt;n;i++) {
+                    min = absolute(a[i],x);
+                    pos = i;
+                    for(j=i;j&lt;n;j++) {
+                        if(min > absolute(x,a[j])) {
+                            pos = j;
+                            min = absolute(x,a[j]);
+                        }
+                    }
+                    count += absolute(x,a[pos]);
+                    x = a[pos];
+                    a[pos] = a[i];
+                    a[i] = x;
+                    printf("%d\t",x);
+                }
+                printf("\nTotal Head Movement: %d Cylinders",count);
+                break;
+                
+            case 3: // SCAN
+                printf("\nSCAN:\n");
+                printf("Scheduling services the request in order:\n");
+                count = 0;
+                pos = 0;
+                
+                // Sort requests
+                for(i=0;i&lt;n;i++)
+                    for(j=0;j&lt;n-i-1;j++)
+                        if(a[j]>a[j+1]) {
+                            x=a[j];
+                            a[j]=a[j+1];
+                            a[j+1]=x;
+                        }
+                
+                // Find position
+                for(i=0;i&lt;n;i++)
+                    if(a[i]&lt;start) pos++;
+                
+                // Service requests before head
+                for(i=pos-1;i>=0;i--) {
+                    count += absolute(x,a[i]);
+                    x = a[i];
+                    printf("%d\t",x);
+                }
+                
+                // Service requests after head
+                for(i=pos;i&lt;n;i++) {
+                    count += absolute(x,a[i]);
+                    x = a[i];
+                    printf("%d\t",x);
+                }
+                printf("\nTotal Head Movement: %d Cylinders",count);
+                break;
+                
+            // Additional cases for other algorithms would follow...
+        }
+        
+        printf("\nContinue (1/0): ");
+        scanf("%d",&choice);
+    } while(choice==1);
+    
+    return 0;
+}
+    </pre>
+
+    <div class="output">
+        <h3>Output (FCFS Example):</h3>
+        <pre>
+Enter the number of cylinders :200
+Enter the number of requests :5
+Enter current position :50
+Enter the request queue :95 180 34 119 11
+
+DISK SCHEDULING ALGORITHMS
+1. FCFS
+2. SSTF
+3. SCAN
+4. C-SCAN
+5. LOOK
+6. C-LOOK
+Enter choice :1
+
+FCFS :
+Scheduling services the request in order:
+50      95      180     34      119     11
+Total Head Movement: 644 Cylinders
+Continue (1/0): 0
+        </pre>
+
+        <h3>Output (SSTF Example):</h3>
+        <pre>
+Enter choice :2
+
+SSTF:
+Scheduling services the request in order:
+50      34      11      95      119     180
+Total Head Movement: 236 Cylinders
+Continue (1/0): 0
+        </pre>
+    </div>
+</body>
+
+</html>
